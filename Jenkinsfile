@@ -41,19 +41,6 @@ pipeline {
                     }
                 }
 
-//         stage('Build') {
-//             steps {
-//                 script {
-//                     echo 'Building release APK...'
-//                     // `gradlew clean assembleRelease` cleans the project and builds
-//                     // the release APK. The `--stacktrace` option is useful for debugging failures.
-//                     sh {
-//                     script = "./gradlew clean assemble${params.BUILD_TYPE} --stacktrace"
-//                     }
-//                 }
-//             }
-//         }
-
         stage('Test') {
             steps {
                 echo 'Testing...'
