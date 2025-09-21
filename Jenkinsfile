@@ -2,8 +2,12 @@ pipeline {
     agent any
 
     parameters {
-        choice(name = "BUILD_TYPE", choices = "debug\nrelease", description = "Select the build type")
-    }
+            choice(
+                name = "MY_CHOICE_PARAMETER",
+                choices = listOf("Option 1", "Option 2", "Option 3"),
+                description = "Select an option from the list"
+            )
+        }
 
     stages {
         stage("Cleanup Workspace") {
