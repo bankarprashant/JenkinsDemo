@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     parameters {
-            choice(
+            choiceParam(
                         name = "BUILD_FLAVOUR",
-                        choices = ["Debug", "Release"],
+                        choices = listOf("Debug", "Release"),
                         description = "Select an option from the list"
                     )
         }
