@@ -1,6 +1,3 @@
-import org.jenkinsci.plugins.pipeline.model.StringParameterDefinition
-import org.jenkinsci.plugins.pipeline.model.ChoiceParameterDefinition
-
 pipeline {
     agent any
 
