@@ -36,7 +36,7 @@ pipeline {
                                 error("Invalid build type selected: ${params.BUILD_TYPE}")
                             }
                             echo("Building ${params.BUILD_TYPE} version...")
-                            sh "./gradlew clean ${buildTask}"
+                            sh "./gradlew clean ${buildTask} --stacktrace"
                         }
                     }
                 }
