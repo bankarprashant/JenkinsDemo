@@ -2,7 +2,11 @@ pipeline {
     agent any
 
     parameters {
-            choice(name = "BUILD_FLAVOUR", choices = ["Debug", "Release"], description = "Select an option from the list")
+            choice(
+                        name = "BUILD_FLAVOUR",
+                        choices = ["Debug", "Release"],
+                        description = "Select an option from the list"
+                    )
         }
 
     stages {
