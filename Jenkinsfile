@@ -2,11 +2,7 @@ pipeline {
     agent any
 
     parameters {
-            choice(
-                name = "MY_CHOICE_PARAMETER",
-                choices = listOf("Option 1", "Option 2", "Option 3"),
-                description = "Select an option from the list"
-            )
+            choice(name = "MY_CHOICE_PARAMETER", choices = listOf("Option 1", "Option 2"), description = "Select an option from the list")
         }
 
     stages {
