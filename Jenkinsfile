@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    parameters {
+        choice(name = "BUILD_TYPE", choices = listOf("debug", "release"), description = "Select the build type")
+    }
+
     stages {
         stage("Cleanup Workspace") {
             steps {
@@ -12,7 +16,7 @@ pipeline {
         stage('Clone') {
             steps {
             echo 'Clone...'
-                git 'https://github.com/bankarprashant/JenkinsDemo.git'
+//                 git 'https://github.com/bankarprashant/JenkinsDemo.git'
             }
         }
 
@@ -22,7 +26,7 @@ pipeline {
                     echo 'Building release APK...'
                     // `gradlew clean assembleRelease` cleans the project and builds
                     // the release APK. The `--stacktrace` option is useful for debugging failures.
-                    sh './gradlew clean assembleRelease --stacktrace'
+//                     sh './gradlew clean assembleRelease --stacktrace'
                 }
             }
         }
