@@ -2,7 +2,11 @@ pipeline {
     agent any
 
     parameters {
-            choice(name = "BUILD_TYPE", choices = listOf("Debug", "Release"), description = "Select the build type")
+            choice(
+                name: 'BUILD_TYPE',
+                choices: ['Debug', 'Release'],
+                description: 'Select the build type'
+            )
         }
 
     stages {
