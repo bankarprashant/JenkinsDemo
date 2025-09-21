@@ -1,13 +1,19 @@
 pipeline {
     agent any
 
-    parameters {
-            choiceParam(
+    properties(
+        listOf(
+            parameters(
+                listOf(
+                    choice(
                         name = "BUILD_FLAVOUR",
                         choices = listOf("Debug", "Release"),
                         description = "Select an option from the list"
                     )
-        }
+                                )
+                            )
+                        )
+                    )
 
     stages {
         stage("Cleanup Workspace") {
