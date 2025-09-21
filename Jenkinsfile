@@ -28,9 +28,9 @@ pipeline {
                     steps {
                         script {
                             def buildTask = ''
-                            if (params.BUILD_TYPE == 'debug') {
+                            if (params.BUILD_TYPE == 'Debug') {
                                 buildTask = 'assembleDebug'
-                            } else if (params.BUILD_TYPE == 'release') {
+                            } else if (params.BUILD_TYPE == 'Release') {
                                 buildTask = 'assembleRelease'
                             } else {
                                 error("Invalid build type selected: ${params.BUILD_TYPE}")
