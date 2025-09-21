@@ -16,7 +16,7 @@ pipeline {
         stage('Clone') {
             steps {
             echo 'Clone...'
-//                 git 'https://github.com/bankarprashant/JenkinsDemo.git'
+                git 'https://github.com/bankarprashant/JenkinsDemo.git'
             }
         }
 
@@ -26,7 +26,9 @@ pipeline {
                     echo 'Building release APK...'
                     // `gradlew clean assembleRelease` cleans the project and builds
                     // the release APK. The `--stacktrace` option is useful for debugging failures.
-//                     sh './gradlew clean assembleRelease --stacktrace'
+                    sh {
+                    script = "./gradlew clean assemble${params.BUILD_FLAVOR} --stacktrace"
+                    }
                 }
             }
         }
