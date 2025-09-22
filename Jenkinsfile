@@ -20,9 +20,6 @@ pipeline {
 
         stage('Checkout') {
             steps {
-//                 echo 'Clone...'
-//                 git 'https://github.com/bankarprashant/JenkinsDemo.git'
-
                 echo "Cloning repository from branch: ${params.GIT_BRANCH}"
                 git branch: "${params.GIT_BRANCH}", url: "https://github.com/bankarprashant/JenkinsDemo.git"
             }
