@@ -57,15 +57,15 @@ pipeline {
 
     post {
         always {
-            echo 'Pipeline finished!!'
+            echo 'Pipeline finished!!!'
         }
 
         success {
-            echo 'Build successful!!'
+            echo 'Build successful!!!'
         }
 
         failure {
-            echo 'Build failed!!'
+            echo 'Build failed!!!'
         }
     }
 }
