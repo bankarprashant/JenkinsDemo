@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     parameters {
+            string(name: 'GIT_BRANCH', defaultValue: 'master', description: 'The Git branch to check out and build.')
             choice(
                 name: 'BUILD_TYPE',
                 choices: ['Debug', 'Release'],
@@ -17,10 +18,13 @@ pipeline {
             }
         }
 
-        stage('Clone') {
+        stage('Checkout') {
             steps {
-            echo 'Clone...'
-                git 'https://github.com/bankarprashant/JenkinsDemo.git'
+//                 echo 'Clone...'
+//                 git 'https://github.com/bankarprashant/JenkinsDemo.git'
+
+                echo "Cloning repository from branch: ${params.GIT_BRANCH}"
+                git branch: "${params.GIT_BRANCH}", url: "https://github.com/bankarprashant/JenkinsDemo.git"
             }
         }
 
