@@ -10,10 +10,6 @@ pipeline {
         }
 
         stage('Checkout') {
-            when {
-                changeRequest()
-            }
-
             steps {
                 echo "Checking out code for branch: ${env.BRANCH_NAME}"
                 script {
