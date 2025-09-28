@@ -11,6 +11,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
+                echo "Checking out code for branch: ${env.BRANCH_NAME}"
                 script {
                     checkout scm
                 }
