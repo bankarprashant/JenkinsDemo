@@ -20,14 +20,12 @@ pipeline {
 
         stage('Build') {
             steps {
-            script {
                 echo 'Building Release version...'
                 echo "Building Pull Request: ${env.CHANGE_ID}"
                 echo "Source Branch: ${env.CHANGE_BRANCH}"
                 echo "Target Branch: ${env.CHANGE_TARGET}"
 
                 sh './gradlew clean assembleRelease --stacktrace'
-                }
             }
         }
 
