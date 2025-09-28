@@ -2,13 +2,6 @@ pipeline {
     agent any
 
     stages {
-
-        stage("IF PR Request") {
-            when {
-                changeRequest()
-            }
-        }
-
         stage("Cleanup Workspace") {
             steps {
                 echo 'Cleanup Workspace...'
@@ -17,6 +10,10 @@ pipeline {
         }
 
         stage('Checkout') {
+            when {
+                changeRequest()
+            }
+
             steps {
                 echo "Checking out code for branch: ${env.BRANCH_NAME}"
                 script {
