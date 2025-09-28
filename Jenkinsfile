@@ -1,15 +1,6 @@
 pipeline {
     agent any
 
-    parameters {
-            string(name: 'GIT_BRANCH', defaultValue: 'master', description: 'The Git branch to check out and build.')
-            choice(
-                name: 'BUILD_TYPE',
-                choices: ['Debug', 'Release'],
-                description: 'Select the build type'
-            )
-        }
-
     stages {
         stage("Cleanup Workspace") {
             steps {
@@ -20,27 +11,23 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                echo "Cloning repository from branch: ${params.GIT_BRANCH}"
-                git branch: "${params.GIT_BRANCH}", url: "https://github.com/bankarprashant/JenkinsDemo.git"
+                echo "Checking out code for branch: ${env.BRANCH_NAME}"
+                script {
+                    checkout scm
+                }
             }
         }
 
         stage('Build') {
-                    steps {
-                        script {
-                            def buildTask = ''
-                            if (params.BUILD_TYPE == 'Debug') {
-                                buildTask = 'assembleDebug'
-                            } else if (params.BUILD_TYPE == 'Release') {
-                                buildTask = 'assembleRelease'
-                            } else {
-                                error("Invalid build type selected: ${params.BUILD_TYPE}")
-                            }
-                            echo("Building ${params.BUILD_TYPE} version...")
-                            sh "./gradlew clean ${buildTask} --stacktrace"
-                        }
-                    }
-                }
+            steps {
+                echo 'Building Release version...'
+                echo "Building Pull Request: ${env.CHANGE_ID}"
+                echo "Source Branch: ${env.CHANGE_BRANCH}"
+                echo "Target Branch: ${env.CHANGE_TARGET}"
+
+                sh './gradlew clean assembleRelease --stacktrace'
+            }
+        }
 
         stage('Test') {
             steps {
