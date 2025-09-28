@@ -2,6 +2,13 @@ pipeline {
     agent any
 
     stages {
+
+        stage("IF PR Request") {
+            when {
+                changeRequest()
+            }
+        }
+
         stage("Cleanup Workspace") {
             steps {
                 echo 'Cleanup Workspace...'
