@@ -3,6 +3,9 @@ pipeline {
 
     stages {
         stage("Cleanup Workspace") {
+            when {
+                changeRequest()
+            }
             steps {
                 echo 'Cleanup Workspace...'
                 cleanWs()
@@ -10,6 +13,9 @@ pipeline {
         }
 
         stage('Checkout') {
+            when {
+                changeRequest()
+            }
             steps {
                 echo "Checking out code for branch: ${env.BRANCH_NAME}"
                 script {
@@ -19,6 +25,9 @@ pipeline {
         }
 
         stage('Build') {
+        when {
+                        changeRequest()
+                    }
             steps {
                 echo 'Building Release version...'
                 echo "Building Pull Request: ${env.CHANGE_ID}"
@@ -30,12 +39,18 @@ pipeline {
         }
 
         stage('Test') {
+        when {
+                        changeRequest()
+                    }
             steps {
                 echo 'Testing...'
             }
         }
 
         stage('Deploy') {
+        when {
+                        changeRequest()
+                    }
             steps {
                 echo 'Deploying...'
             }
