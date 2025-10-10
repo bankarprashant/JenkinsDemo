@@ -27,26 +27,31 @@ pipeline {
 
                             def pattern = /versionCode\s*=\s*(\d+)/
 
-                            def matcher = content =~ pattern
+                            def currentVersionCode = -1
+                            def found = false
 
-                            if (matcher.find()) {
-                                def currentVersionCode = matcher[0][1].toInteger()
+                            content.eachMatch(pattern) { match ->
+                                currentVersionCode = match[1].toInteger()
+                                found = true
+                                return
+                            }
+
+                            if (found) {
                                 def newVersionCode = currentVersionCode + 1
 
                                 echo "Current versionCode: ${currentVersionCode}"
                                 echo "New versionCode: ${newVersionCode}"
 
                                 def newVersionString = "versionCode = ${newVersionCode}"
+
                                 def newContent = content.replaceFirst(pattern, newVersionString)
 
                                 writeFile(file: gradleFile, text: newContent)
 
                                 env.NEW_ANDROID_VERSION_CODE = newVersionCode
                             } else {
-                                error("Could not find 'versionCode' in ${gradleFile}. Check file format.")
+                                error("Could not find 'versionCode' in ${gradleFile} using the pattern: ${pattern}. Check file format.")
                             }
-
-                            matcher = null
                         }
                     }
                 }
