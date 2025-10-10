@@ -45,6 +45,8 @@ pipeline {
                             } else {
                                 error("Could not find 'versionCode' in ${gradleFile}. Check file format.")
                             }
+
+                            matcher = null
                         }
                     }
                 }
