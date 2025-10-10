@@ -76,7 +76,8 @@ pipeline {
                         //sh 'git config user.email "bankarprashant17@gmail.commit"'
                         //sh 'git config user.name "bankarprashant"'
                         sh 'git add app/build.gradle.kts'
-                        sh 'git commit -m \"CI: Auto-increment versionCode ${env.NEW_ANDROID_VERSION_CODE} [ci skip]\"'
+                        //sh 'git commit -m \"CI: Auto-increment versionCode ${env.NEW_ANDROID_VERSION_CODE} [ci skip]\"'
+                        sh 'git commit -m \"CI: Auto-increment versionCode [ci skip]\"'
                         withCredentials([string(credentialsId: 'github-credentials', variable: 'GITHUB_TOKEN')]) {
                             sh "git push https://bankarprashant:\$GITHUB_TOKEN@github.com/JenkinsDemo.git HEAD"
                         }
