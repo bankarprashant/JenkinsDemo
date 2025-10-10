@@ -36,7 +36,7 @@ pipeline {
                                 echo "Current versionCode: ${currentVersionCode}"
                                 echo "New versionCode: ${newVersionCode}"
 
-                                def newContent = content.replaceFirst(pattern, "versionCode ${newVersionCode}")
+                                def newContent = content.replaceFirst(pattern, "versionCode = ${newVersionCode}")
 
                                 writeFile(file: gradleFile, text: newContent)
 
