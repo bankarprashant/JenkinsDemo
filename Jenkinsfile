@@ -25,7 +25,7 @@ pipeline {
 
                             def content = readFile(gradleFile)
 
-                            def pattern = /versionCode = (\d+)/
+                            def pattern = /versionCode\s*=\s*(\d+)/
 
                             def matcher = content =~ pattern
 
@@ -36,7 +36,8 @@ pipeline {
                                 echo "Current versionCode: ${currentVersionCode}"
                                 echo "New versionCode: ${newVersionCode}"
 
-                                def newContent = content.replaceFirst(pattern, "versionCode = ${newVersionCode}")
+                                def newVersionString = "versionCode = ${newVersionCode}"
+                                def newContent = content.replaceFirst(pattern, newVersionString)
 
                                 writeFile(file: gradleFile, text: newContent)
 
