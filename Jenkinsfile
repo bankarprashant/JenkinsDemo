@@ -25,7 +25,7 @@ pipeline {
 
                             def content = readFile(gradleFile)
 
-                            def pattern = /versionCode\s+(\d+)/
+                            def pattern = /versionCode = (\d+)/
 
                             def matcher = content =~ pattern
 
