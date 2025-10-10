@@ -21,7 +21,7 @@ pipeline {
         stage('Auto-Increment Version') {
                     steps {
                         script {
-                            def gradleFile = 'app/build.gradle'
+                            def gradleFile = 'app/build.gradle.kts'
 
                             def content = readFile(gradleFile)
 
