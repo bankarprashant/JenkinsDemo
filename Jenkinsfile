@@ -75,7 +75,7 @@ pipeline {
                         // avoiding an infinite build loop.
                         sh 'git config user.email "bankarprashant17@gmail.commit"'
                         sh 'git config user.name "bankarprashant"'
-                        sh 'git add app/build.gradle'
+                        sh 'git add app/build.gradle.kts'
                         sh 'git commit -m "CI: Auto-increment versionCode to ${env.NEW_ANDROID_VERSION_CODE} [ci skip]"'
                         sh 'git push origin HEAD'
                     }
