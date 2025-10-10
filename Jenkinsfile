@@ -67,6 +67,20 @@ pipeline {
             }
         }
 
+        stage('Commit Version Change') {
+                    steps {
+                        // This step is CRITICAL to save the incremented version back to the repository.
+                        // ⚠️ IMPORTANT: The '[ci skip]' tag in the commit message is used
+                        // to prevent this commit from triggering a new Jenkins build,
+                        // avoiding an infinite build loop.
+                        sh 'git config user.email "bankarprashant17@gmail.commit"'
+                        sh 'git config user.name "bankarprashant"'
+                        sh 'git add app/build.gradle'
+                        sh 'git commit -m "CI: Auto-increment versionCode to ${env.NEW_ANDROID_VERSION_CODE} [ci skip]"'
+                        sh 'git push origin HEAD'
+                    }
+                }
+
         stage('Test') {
             steps {
                 echo 'Testing...'
