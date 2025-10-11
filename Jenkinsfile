@@ -67,7 +67,7 @@ pipeline {
             }
         }
 
-        steps('Push To GitHub') {
+        stage('Push To GitHub') {
             steps {
                 sh 'git config user.name bankarprashant'
                 sh 'git config user.email bankarprashant17@gmail.com'
