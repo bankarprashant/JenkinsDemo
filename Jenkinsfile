@@ -69,8 +69,8 @@ pipeline {
 
         stage('Push To GitHub') {
             steps {
-                sh 'git config user.name bankarprashant'
-                sh 'git config user.email bankarprashant17@gmail.com'
+                sh "git config user.name ${env.GIT_AUTHOR_NAME}"
+                sh "git config user.email ${env.GIT_AUTHOR_EMAIL}"
 
                 sh 'git add app/build.gradle.kts'
                 sh "git commit -m \"Auto-increment versionCode ${env.NEW_ANDROID_VERSION_CODE} [CI_SKIP]\""
