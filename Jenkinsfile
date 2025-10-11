@@ -76,7 +76,7 @@ pipeline {
                 sh "git commit -m \"Auto-increment versionCode ${env.NEW_ANDROID_VERSION_CODE} [CI_SKIP]\""
 
                 withCredentials([gitUsernamePassword(credentialsId: 'github-credentials', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
-                    sh """git push https://bankarprashant:${GIT_PASSWORD}@github.com/bankarprashant/JenkinsDemo.git HEAD"""
+                    sh """git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/bankarprashant/JenkinsDemo.git HEAD"""
                 }
             }
         }
