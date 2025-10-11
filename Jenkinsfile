@@ -70,13 +70,13 @@ pipeline {
         stage('Push To GitHub') {
             steps {
                 sh 'git config user.name bankarprashant'
-                sh 'git config user.email bankarprashant'
+                sh 'git config user.email bankarprashant17@gmail.com'
 
                 sh 'git add app/build.gradle.kts'
                 sh "git commit -m \"Auto-increment versionCode ${env.NEW_ANDROID_VERSION_CODE} [CI_SKIP]\""
 
                 withCredentials([gitUsernamePassword(credentialsId: 'github-credentials', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
-                    sh """git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/bankarprashant/JenkinsDemo.git HEAD"""
+                    sh """git push https://bankarprashant:${GIT_PASSWORD}@github.com/bankarprashant/JenkinsDemo.git HEAD"""
                 }
             }
         }
