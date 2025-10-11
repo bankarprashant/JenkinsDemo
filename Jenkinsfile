@@ -72,7 +72,7 @@ pipeline {
                 sh 'git config user.name bankarprashant'
                 sh 'git config user.email bankarprashant17@gmail.com'
 
-                sh 'git add build.gradle.kts'
+                sh 'git add app/build.gradle.kts'
                 sh "git commit -m \"Auto-increment versionCode ${env.NEW_ANDROID_VERSION_CODE} [CI_SKIP]\""
 
                 withCredentials([gitUsernamePassword(credentialsId: 'github-credentials', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
