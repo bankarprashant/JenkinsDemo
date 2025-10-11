@@ -63,19 +63,19 @@ pipeline {
                 echo "Source Branch: ${env.CHANGE_BRANCH}"
                 echo "Target Branch: ${env.CHANGE_TARGET}"
 
-                //sh './gradlew clean assembleRelease --stacktrace'
+                sh './gradlew clean assembleRelease --stacktrace'
             }
         }
 
         stage('Push To GitHub') {
             steps {
+                sh 'git config user.name bankarprashant'
+                sh 'git config user.email bankarprashant17@gmail.com'
+
+                sh 'git add app/build.gradle.kts'
+                sh "git commit -m \"Auto-increment versionCode ${env.NEW_ANDROID_VERSION_CODE} [CI_SKIP]\""
+
                 withCredentials([gitUsernamePassword(credentialsId: 'github-credentials', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
-                    sh "git config user.name ${env.GIT_USERNAME}"
-                    sh "git config user.email ${env.GIT_AUTHOR_EMAIL}"
-
-                    sh 'git add app/build.gradle.kts'
-                    sh "git commit -m \"Auto-increment versionCode ${env.NEW_ANDROID_VERSION_CODE} [CI_SKIP]\""
-
                     sh '''git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/bankarprashant/JenkinsDemo.git HEAD:${GIT_BRANCH}'''
                 }
             }
