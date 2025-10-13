@@ -75,12 +75,16 @@ pipeline {
                 sh 'git add app/build.gradle.kts'
                 sh "git commit -m \"Auto-increment versionCode ${env.NEW_ANDROID_VERSION_CODE} [CI_SKIP]\""
 
+                def sourceBranch = ${env.CHANGE_BRANCH}
+
+                echo "Source Branch: ${sourceBranch}"
+
                 withCredentials([gitUsernamePassword(credentialsId: 'github-credentials', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
                 script {
-                    if(env.CHANGE_BRANCH == null) {
+                    if(sourceBranch == null) {
                         sh '''git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/bankarprashant/JenkinsDemo.git HEAD:${GIT_BRANCH}'''
                     } else {
-                        sh '''git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/bankarprashant/JenkinsDemo.git HEAD:${env.CHANGE_BRANCH}'''
+                        sh '''git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/bankarprashant/JenkinsDemo.git HEAD:${sourceBranch}'''
                     }
                 }
                     //sh '''git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/bankarprashant/JenkinsDemo.git HEAD:${GIT_BRANCH}'''
