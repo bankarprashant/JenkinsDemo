@@ -1,15 +1,6 @@
 pipeline {
     agent any
 
-    parameters {
-            string(name: 'GIT_BRANCH', defaultValue: 'master', description: 'The Git branch to check out and build.')
-            choice(
-                name: 'BUILD_TYPE',
-                choices: ['Debug', 'Release'],
-                description: 'Select the build type'
-            )
-        }
-
     stages {
         stage("Cleanup Workspace") {
             steps {
@@ -20,27 +11,78 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                echo "Cloning repository from branch: ${params.GIT_BRANCH}"
-                git branch: "${params.GIT_BRANCH}", url: "https://github.com/bankarprashant/JenkinsDemo.git"
+                echo "Checking out code for branch: ${env.BRANCH_NAME}"
+                script {
+                    checkout scm
+                }
             }
         }
 
-        stage('Build') {
+        stage('Auto-Increment Version') {
                     steps {
                         script {
-                            def buildTask = ''
-                            if (params.BUILD_TYPE == 'Debug') {
-                                buildTask = 'assembleDebug'
-                            } else if (params.BUILD_TYPE == 'Release') {
-                                buildTask = 'assembleRelease'
-                            } else {
-                                error("Invalid build type selected: ${params.BUILD_TYPE}")
+                            def gradleFile = 'app/build.gradle.kts'
+
+                            def content = readFile(gradleFile)
+
+                            def pattern = /versionCode\s*=\s*(\d+)/
+
+                            def currentVersionCode = -1
+                            def found = false
+
+                            content.eachMatch(pattern) { match ->
+                                currentVersionCode = match[1].toInteger()
+                                found = true
+                                return
                             }
-                            echo("Building ${params.BUILD_TYPE} version...")
-                            sh "./gradlew clean ${buildTask} --stacktrace"
+
+                            if (found) {
+                                def newVersionCode = currentVersionCode + 1
+
+                                echo "Current versionCode: ${currentVersionCode}"
+                                echo "New versionCode: ${newVersionCode}"
+
+                                def newVersionString = "versionCode = ${newVersionCode}"
+
+                                def newContent = content.replaceFirst(pattern, newVersionString)
+
+                                writeFile(file: gradleFile, text: newContent)
+
+                                env.NEW_ANDROID_VERSION_CODE = newVersionCode
+                            } else {
+                                error("Could not find 'versionCode' in ${gradleFile} using the pattern: ${pattern}. Check file format.")
+                            }
                         }
                     }
                 }
+
+        stage('Build') {
+            steps {
+                echo 'Building Release version...'
+                echo "Building Pull Request: ${env.CHANGE_ID}"
+                echo "Source Branch: ${env.CHANGE_BRANCH}"
+                echo "Target Branch: ${env.CHANGE_TARGET}"
+
+                //sh './gradlew clean assembleRelease --stacktrace'
+            }
+        }
+
+        stage('Push To GitHub') {
+            steps {
+                sh 'git config user.name bankarprashant'
+                sh 'git config user.email bankarprashant17@gmail.com'
+
+                sh 'git add app/build.gradle.kts'
+                sh "git commit -m \"Auto-increment versionCode ${env.NEW_ANDROID_VERSION_CODE} [CI_SKIP]\""
+
+                withCredentials([gitUsernamePassword(credentialsId: 'github-credentials', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+                script {
+                    echo "Source Branch: ${env.CHANGE_BRANCH}"
+                    sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/bankarprashant/JenkinsDemo.git HEAD:${env.CHANGE_BRANCH}"
+                    }
+                }
+            }
+        }
 
         stage('Test') {
             steps {
@@ -57,7 +99,7 @@ pipeline {
 
     post {
         always {
-            echo 'Pipeline finished!!'
+            echo 'Pipeline finished!!!'
         }
 
         success {
