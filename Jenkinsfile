@@ -78,13 +78,13 @@ pipeline {
                 withCredentials([gitUsernamePassword(credentialsId: 'github-credentials', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
                 script {
                     echo "Source Branch: ${env.CHANGE_BRANCH}"
-                    if(env.CHANGE_BRANCH == null) {
-                        sh '''git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/bankarprashant/JenkinsDemo.git HEAD:${GIT_BRANCH}'''
-                    } else {
-                        sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/bankarprashant/JenkinsDemo.git HEAD:${env.CHANGE_BRANCH}"
-                    }
+                    sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/bankarprashant/JenkinsDemo.git HEAD:${env.CHANGE_BRANCH}"
+                    //if(env.CHANGE_BRANCH == null) {
+                      //  sh '''git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/bankarprashant/JenkinsDemo.git HEAD:${GIT_BRANCH}'''
+                    //} else {
+                      //  sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/bankarprashant/JenkinsDemo.git HEAD:${env.CHANGE_BRANCH}"
+                    //}
                 }
-                    //sh '''git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/bankarprashant/JenkinsDemo.git HEAD:${GIT_BRANCH}'''
                 }
             }
         }
