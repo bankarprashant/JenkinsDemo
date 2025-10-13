@@ -76,6 +76,15 @@ pipeline {
                 sh "git commit -m \"Auto-increment versionCode ${env.NEW_ANDROID_VERSION_CODE} [CI_SKIP]\""
 
                 withCredentials([gitUsernamePassword(credentialsId: 'github-credentials', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+                script {
+                    if(env.CHANGE_BRANCH == null) {
+                        sh '''git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/bankarprashant/JenkinsDemo.git HEAD:${GIT_BRANCH}'''
+                    } else {
+                        sh '''git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/bankarprashant/JenkinsDemo.git HEAD:${env.CHANGE_BRANCH}'''
+                    }
+
+
+                }
                     sh '''git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/bankarprashant/JenkinsDemo.git HEAD:${GIT_BRANCH}'''
                 }
             }
