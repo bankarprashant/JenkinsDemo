@@ -82,10 +82,8 @@ pipeline {
                     } else {
                         sh '''git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/bankarprashant/JenkinsDemo.git HEAD:${env.CHANGE_BRANCH}'''
                     }
-
-
                 }
-                    sh '''git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/bankarprashant/JenkinsDemo.git HEAD:${GIT_BRANCH}'''
+                    //sh '''git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/bankarprashant/JenkinsDemo.git HEAD:${GIT_BRANCH}'''
                 }
             }
         }
